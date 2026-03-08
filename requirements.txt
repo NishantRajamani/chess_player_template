@@ -1,3 +1,7 @@
 python-chess
 torch
 transformers
+accelerate
+bitsandbytes
+huggingface-hub
+requests

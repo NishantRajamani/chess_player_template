@@ -131,33 +131,35 @@ class TransformerPlayer(Player):
 
     # Prompt builder (choose_uci) with move history included
     def _build_choose_uci_prompt(self, fen: str, candidates: list[str], recent_moves: list[str]) -> str:
-        history_str = " ".join(recent_moves[-10:]) if recent_moves else "none"
-        moves_block = "\n".join(f"- {m}" for m in candidates)
-        prompt = f"""You are a grandmaster-level chess engine. Analyze the position carefully.
-            FEN: {fen}
-            Recent moves played: {history_str}
-            
-            CANDIDATE MOVES (you must pick from these only):
-            {moves_block}
-            
-            CHESS PRINCIPLES TO FOLLOW:
-            1. In the opening: develop knights and bishops before moving the queen
-            2. Castle early to protect your king - never leave king in center if castling is available
-            3. NEVER move to a square where your piece can be captured for free
-            4. If you can capture a higher-value piece safely, do it
-            5. AVOID repeating the same moves over and over again - recent moves were: {history_str}
-            6. Control the center with pawns and other pieces cause controlling the center wins the game
-            7. Connect your rooks after castling
-            8. Do not move the same piece twice in the opening
-            
-            Think step by step:
-            1. Is my king safe? Can I castle?
-            2. Am I hanging any pieces?
-            3. Can I win material?
-            4. Which move improves my position most?
-            
-            Reply with ONLY one UCI move from the candidate list. Nothing else."""
-                    return prompt
+    history_str = " ".join(recent_moves[-10:]) if recent_moves else "none"
+    moves_block = "\n".join(f"- {m}" for m in candidates)
+
+    prompt = f"""You are a grandmaster-level chess engine. Analyze the position carefully.
+FEN: {fen}
+Recent moves played: {history_str}
+
+CANDIDATE MOVES (you must pick from these only):
+{moves_block}
+
+CHESS PRINCIPLES TO FOLLOW:
+1. In the opening: develop knights and bishops before moving the queen
+2. Castle early to protect your king - never leave king in center if castling is available
+3. NEVER move to a square where your piece can be captured for free
+4. If you can capture a higher-value piece safely, do it
+5. AVOID repeating the same moves over and over again - recent moves were: {history_str}
+6. Control the center with pawns and other pieces cause controlling the center wins the game
+7. Connect your rooks after castling
+8. Do not move the same piece twice in the opening
+
+Think step by step:
+1. Is my king safe? Can I castle?
+2. Am I hanging any pieces?
+3. Can I win material?
+4. Which move improves my position most?
+
+Reply with ONLY one UCI move from the candidate list. Nothing else."""
+    
+    return prompt
 
     # fallback
     def _deterministic_fallback(self, candidates_uci: List[str], board: chess.Board) -> str:

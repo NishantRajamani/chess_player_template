@@ -25,7 +25,7 @@ class TransformerPlayer(Player):
     def __init__(
         self,
         name: str = "TransformerPlayer",
-        model_id: str = "Qwen/Qwen2.5-7B-Instruct",
+        model_id: str = "Qwen/Qwen3-4B-Instruct-2507",
         candidate_count: int = 6,
         max_new_tokens: int = 32,
     ):
